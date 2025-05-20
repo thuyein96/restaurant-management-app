@@ -6,4 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RestaurantManagementApp.DbService\RestaurantManagementApp.DbService.csproj" />
+    <ProjectReference Include="..\RestaurantManagementApp.Dtos\RestaurantManagementApp.Dtos.csproj" />
+    <ProjectReference Include="..\RestaurantManagementApp.Extension\RestaurantManagementApp.Extension.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Menu\" />
+    <Folder Include="Features\CustomizeOption\" />
+  </ItemGroup>
+
 </Project>
