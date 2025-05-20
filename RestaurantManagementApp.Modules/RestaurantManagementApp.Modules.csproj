@@ -10,6 +10,8 @@
     <ProjectReference Include="..\RestaurantManagementApp.DbService\RestaurantManagementApp.DbService.csproj" />
     <ProjectReference Include="..\RestaurantManagementApp.Dtos\RestaurantManagementApp.Dtos.csproj" />
     <ProjectReference Include="..\RestaurantManagementApp.Extension\RestaurantManagementApp.Extension.csproj" />
+    <ProjectReference Include="..\RestaurantManagementApp.Shared\RestaurantManagementApp.Shared.csproj" />
+    <ProjectReference Include="..\RestaurantManagementApp.Utils\RestaurantManagementApp.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,1 @@
+﻿global using RestaurantManagementApp.Utils.Enum;

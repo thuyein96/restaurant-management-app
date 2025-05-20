@@ -1,4 +1,7 @@
-﻿using RestaurantManagementApp.DbService.AppDbContextModels;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantManagementApp.DbService.Tables;
+using System.Threading;
+
 namespace RestaurantManagementApp.Modules.Features.Category;
 
 public class CategoryService : ICategoryService
@@ -11,28 +14,124 @@ public class CategoryService : ICategoryService
     }
 
 
-    public async Task<Result<IEnumerable<CategoryDto>>> GetCategoriesAsync(CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<CategoryDto>>> GetCategoriesAsync()
     {
-        throw new NotImplementedException();
+        Result<IEnumerable<CategoryDto>> result;
+        try
+        {
+            var lst = await _dbContext
+                .TblCategories
+                .ToListAsync();
+            result = Result<IEnumerable<CategoryDto>>.Success(lst.Select(x => x.ToDto()));
+        }
+        catch (Exception ex)
+        {
+            result = Result<IEnumerable<CategoryDto>>.Failure(ex);
+        }
+
+        return result;
     }
 
-    public async Task<Result<CategoryDto>> GetCategoryByIdAsync(int categoryId, CancellationToken cancellationToken)
+    public async Task<Result<CategoryDto>> GetCategoryByIdAsync(Guid categoryId)
     {
-        throw new NotImplementedException();
+        Result<CategoryDto> result;
+        try
+        {
+            var category = await GetSpecificCategory(
+                x => x.CategoryId == categoryId
+            );
+            if (category is null)
+            {
+                result = Result<CategoryDto>.NotFound("Category Not Found.");
+                goto result;
+            }
+
+            result = Result<CategoryDto>.Success(category.ToDto());
+        }
+        catch (Exception ex)
+        {
+            result = Result<CategoryDto>.Failure(ex);
+        }
+
+        result:
+        return result;
     }
 
-    public async Task<Result<CategoryDto>> GetCategoryByCodeAsync(string categoryCode, CancellationToken cancellationToken)
+    public async Task<Result<CategoryDto>> CreateCategoryAsync(
+        CreateCategoryDto categoryDto
+        )
     {
-        throw new NotImplementedException();
+        Result<CategoryDto> result;
+        try
+        {
+            bool isDuplicate = await IsCategoryDuplicate(
+                x => x.CategoryName == categoryDto.CategoryName
+            );
+            if (isDuplicate)
+            {
+                result = Result<CategoryDto>.Duplicate("Category Name already exists.");
+                goto result;
+            }
+
+            await _dbContext.TblCategories.AddAsync(categoryDto.ToEntity());
+            await _dbContext.SaveChangesAsync();
+
+            result = Result<CategoryDto>.SaveSuccess();
+        }
+        catch (Exception ex)
+        {
+            result = Result<CategoryDto>.Failure(ex);
+        }
+
+        result:
+        return result;
     }
 
-    public async Task<Result<CategoryDto>> CreateCategoryAsync(CreateCategoryDto categoryDto, CancellationToken cancellationToken)
+    public async Task<Result<CategoryDto>> DeleteCategoryAsync(
+        Guid categoryId
+        )
     {
-        throw new NotImplementedException();
+        Result<CategoryDto> result;
+        try
+        {
+            var category = await GetSpecificCategory(
+                x => x.CategoryId == categoryId
+            );
+            if (category is null)
+            {
+                result = Result<CategoryDto>.NotFound("Category Not Found.");
+                goto result;
+            }
+
+            _dbContext.TblCategories.Remove(category);
+            await _dbContext.SaveChangesAsync();
+
+            result = Result<CategoryDto>.DeleteSuccess();
+        }
+        catch (Exception ex)
+        {
+            result = Result<CategoryDto>.Failure(ex);
+        }
+
+        result:
+        return result;
     }
 
-    public async Task<Result<CategoryDto>> DeleteCategoryAsync(int categoryId, CancellationToken cancellationToken)
+    private async Task<bool> IsCategoryDuplicate(
+        Expression<Func<TblCategory, bool>> expression
+    )
     {
-        throw new NotImplementedException();
+        return await _dbContext.TblCategories.AnyAsync(
+            expression
+        );
+    }
+
+    private async Task<TblCategory?> GetSpecificCategory(
+        Expression<Func<TblCategory, bool>> expression
+    )
+    {
+        return await _dbContext.TblCategories.FirstOrDefaultAsync(
+            expression
+        );
     }
 }

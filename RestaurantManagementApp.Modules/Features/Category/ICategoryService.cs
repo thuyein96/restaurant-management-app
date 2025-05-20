@@ -4,21 +4,17 @@ namespace RestaurantManagementApp.Modules.Features.Category;
 
 public interface ICategoryService
 {
-    Task<Result<IEnumerable<CategoryDto>>> GetCategoriesAsync(CancellationToken cancellationToken);
+    Task<Result<IEnumerable<CategoryDto>>> GetCategoriesAsync();
     Task<Result<CategoryDto>> GetCategoryByIdAsync(
-        int categoryId,
-        CancellationToken cancellationToken
-    );
-    Task<Result<CategoryDto>> GetCategoryByCodeAsync(
-        string categoryCode,
-        CancellationToken cancellationToken
+        Guid categoryId
+        
     );
     Task<Result<CategoryDto>> CreateCategoryAsync(
-        CreateCategoryDto categoryDto,
-        CancellationToken cancellationToken
+        CreateCategoryDto categoryDto
+        
     );
     Task<Result<CategoryDto>> DeleteCategoryAsync(
-        int categoryId,
-        CancellationToken cancellationToken
+        Guid categoryId
+        
     );
 }
