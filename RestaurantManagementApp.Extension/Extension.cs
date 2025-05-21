@@ -1,5 +1,6 @@
 ﻿using RestaurantManagementApp.DbService.Tables;
 using RestaurantManagementApp.Dtos.Features.Category;
+using RestaurantManagementApp.Dtos.Features.CustomizeOption;
 using RestaurantManagementApp.Dtos.Features.MenuItem;
 
 namespace RestaurantManagementApp.Extension;
@@ -54,6 +55,24 @@ public static class Extension
             Price = menuItemDto.Price,
             CategoryId = menuItemDto.CategoryId,
             Category = menuItemDto.Category.ToEntity()
+        };
+    }
+
+    public static TblMenuItemCustomizeOption ToEntity(this MenuItemCustomizeOptionDto menuItemCustomizeOptionDto)
+    {
+        return new TblMenuItemCustomizeOption
+        {
+            MenuItemId = menuItemCustomizeOptionDto.MenuItemId,
+            CustomizeOptionId = menuItemCustomizeOptionDto.CustomizeOptionId
+        };
+    }
+
+    public static MenuItemCustomizeOptionDto ToDto(this TblMenuItemCustomizeOption menuItemCustomizeOption)
+    {
+        return new MenuItemCustomizeOptionDto
+        {
+            MenuItemId = menuItemCustomizeOption.MenuItemId,
+            CustomizeOptionId = menuItemCustomizeOption.CustomizeOptionId
         };
     }
 }

@@ -110,6 +110,9 @@ public class MenuItemService : IMenuItemService
             menuItem.Price = menuItemDto.Price;
             menuItem.CategoryId = menuItemDto.CategoryId;
             menuItem.Category = menuItemDto.Category.ToEntity();
+            menuItem.MenuItemCustomizeOptions = menuItemDto.MenuItemCustomizeOptions
+                .Select(x => x.ToEntity())
+                .ToList();
 
             _dbContext.TblMenuItems.Update(menuItem);
             await _dbContext.SaveChangesAsync();

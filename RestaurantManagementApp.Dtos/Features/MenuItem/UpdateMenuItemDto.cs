@@ -7,4 +7,5 @@ public class UpdateMenuItemDto
     public decimal Price { get; set; }
     public Guid CategoryId { get; set; }
     public CategoryDto Category { get; set; }
+    public ICollection<MenuItemCustomizeOptionDto> MenuItemCustomizeOptions { get; set; }
 }

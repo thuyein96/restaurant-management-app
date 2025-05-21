@@ -2,7 +2,7 @@
 
 namespace RestaurantManagementApp.Dtos.Features.CustomizeOption;
 
-public class MenuItemCustomizeOption
+public class MenuItemCustomizeOptionDto
 {
     public Guid MenuItemCustomizeOptionId { get; set; }
     public Guid MenuItemId { get; set; }
