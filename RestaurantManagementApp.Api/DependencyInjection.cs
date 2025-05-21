@@ -24,6 +24,7 @@ public static class DependencyInjection
     private static IServiceCollection AddDataAccessService(this IServiceCollection services)
     {
         return services
-            .AddScoped<ICategoryService, CategoryService>();
+            .AddScoped<ICategoryService, CategoryService>()
+            .AddScoped<IMenuItemService, MenuItemService>();
     }
 }

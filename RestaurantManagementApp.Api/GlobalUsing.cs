@@ -6,5 +6,9 @@ global using RestaurantManagementApp.Extension;
 global using RestaurantManagementApp.Api.Controllers.Base;
 global using Microsoft.EntityFrameworkCore;
 global using RestaurantManagementApp.DbService.AppDbContextModels;
+global using RestaurantManagementApp.Modules.Features.Menu;
+global using RestaurantManagementApp.Dtos.Features.MenuItem;
+
+
 
 

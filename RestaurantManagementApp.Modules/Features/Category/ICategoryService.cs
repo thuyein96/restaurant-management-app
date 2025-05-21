@@ -1,6 +1,4 @@
-﻿using RestaurantManagementApp.Dtos.Features.Category;
-
-namespace RestaurantManagementApp.Modules.Features.Category;
+﻿namespace RestaurantManagementApp.Modules.Features.Category;
 
 public interface ICategoryService
 {

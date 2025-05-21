@@ -29,6 +29,7 @@ public class CategoryService : ICategoryService
             result = Result<IEnumerable<CategoryDto>>.Failure(ex);
         }
 
+        result:
         return result;
     }
 
