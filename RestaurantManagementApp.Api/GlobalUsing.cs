@@ -4,4 +4,7 @@ global using RestaurantManagementApp.Dtos.Features.Category;
 global using RestaurantManagementApp.Modules.Features.Category;
 global using RestaurantManagementApp.Extension;
 global using RestaurantManagementApp.Api.Controllers.Base;
+global using Microsoft.EntityFrameworkCore;
+global using RestaurantManagementApp.DbService.AppDbContextModels;
+
 

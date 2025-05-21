@@ -1,15 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using RestaurantManagementApp.DbService.AppDbContextModels;
-
-namespace RestaurantManagementApp.Api;
+﻿namespace RestaurantManagementApp.Api;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddDependencyInjection(this IServiceCollection services,
         WebApplicationBuilder builder)
     {
-        return services.AddDbContextService(builder);
+        return services
+            .AddDbContextService(builder)
+            .AddDataAccessService();
     }
 
     private static IServiceCollection AddDbContextService(this IServiceCollection services,
@@ -21,5 +19,11 @@ public static class DependencyInjection
                 ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")),
                 x => x.MigrationsAssembly("RestaurantManagementApp.DbService")));
         return services;
+    }
+
+    private static IServiceCollection AddDataAccessService(this IServiceCollection services)
+    {
+        return services
+            .AddScoped<ICategoryService, CategoryService>();
     }
 }
