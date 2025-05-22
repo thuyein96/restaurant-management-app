@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RestaurantManagementApp.DbService.Tables;
-
-namespace RestaurantManagementApp.Modules.Features.Menu;
+﻿namespace RestaurantManagementApp.Modules.Features.Menu;
 
 public class MenuItemService : IMenuItemService
 {
@@ -66,8 +63,7 @@ public class MenuItemService : IMenuItemService
             );
             if (menuItem is null)
             {
-                result = Result<MenuItemDto>.NotFound("Menu Item Not Found.");
-                goto result;
+                return Result<MenuItemDto>.NotFound("Menu Item Not Found.");
             }
 
             result = Result<MenuItemDto>.Success(menuItem.ToDto());
@@ -77,7 +73,6 @@ public class MenuItemService : IMenuItemService
             result = Result<MenuItemDto>.Failure(ex);
         }
 
-        result:
         return result;
     }
 

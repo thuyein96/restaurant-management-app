@@ -8,3 +8,6 @@ global using RestaurantManagementApp.Dtos.Features.CustomizeOption;
 global using Microsoft.EntityFrameworkCore;
 global using RestaurantManagementApp.Utils;
 global using RestaurantManagementApp.Extension;
+global using Microsoft.EntityFrameworkCore;
+global using RestaurantManagementApp.DbService.Tables;
+
