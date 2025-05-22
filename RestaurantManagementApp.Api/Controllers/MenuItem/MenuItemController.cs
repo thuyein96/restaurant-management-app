@@ -18,7 +18,7 @@ public class MenuItemController : BaseController
         return Content(result);
     }
 
-    [HttpGet("id/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetMenuItemById(Guid id)
     {
         var result = await _menuItemService.GetMenuItemByIdAsync(id);

@@ -18,7 +18,7 @@ public class CategoryController : BaseController
         return Content(result);
     }
 
-    [HttpGet("id/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetCategoryById(Guid id)
     {
         var result = await _categoryService.GetCategoryByIdAsync(id);
