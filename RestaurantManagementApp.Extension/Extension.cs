@@ -1,9 +1,4 @@
-﻿using RestaurantManagementApp.DbService.Tables;
-using RestaurantManagementApp.Dtos.Features.Category;
-using RestaurantManagementApp.Dtos.Features.CustomizeOption;
-using RestaurantManagementApp.Dtos.Features.MenuItem;
-
-namespace RestaurantManagementApp.Extension;
+﻿namespace RestaurantManagementApp.Extension;
 
 public static class Extension
 {
@@ -54,16 +49,40 @@ public static class Extension
             Description = menuItemDto.Description,
             Price = menuItemDto.Price,
             CategoryId = menuItemDto.CategoryId,
-            Category = menuItemDto.Category.ToEntity()
+            MenuItemCustomizeOptions = menuItemDto.CustomizeOptions
+                .Select(x => new TblMenuItemCustomizeOption
+            {
+                CustomizeOptionId = x.CustomizeOptionId
+            }).ToList()
         };
     }
 
-    public static TblMenuItemCustomizeOption ToEntity(this MenuItemCustomizeOptionDto menuItemCustomizeOptionDto)
+    public static TblCustomizeOption ToEntity(this CreateCustomizeOptionDto customizeOptionDto)
     {
-        return new TblMenuItemCustomizeOption
+        return new TblCustomizeOption
         {
-            MenuItemId = menuItemCustomizeOptionDto.MenuItemId,
-            CustomizeOptionId = menuItemCustomizeOptionDto.CustomizeOptionId
+            Name = customizeOptionDto.CustomizeOptionName,
+            Price = customizeOptionDto.Price
+        };
+    }
+
+    public static TblCustomizeOption ToEntity(this CustomizeOptionDto customizeOptionDto)
+    {
+        return new TblCustomizeOption
+        {
+            CustomizeOptionId = customizeOptionDto.CustomizeOptionId,
+            Name = customizeOptionDto.CustomizeOptionName,
+            Price = customizeOptionDto.Price
+        };
+    }
+
+    public static CustomizeOptionDto ToDto(this TblCustomizeOption customizeOption)
+    {
+        return new CustomizeOptionDto
+        {
+            CustomizeOptionId = customizeOption.CustomizeOptionId,
+            CustomizeOptionName = customizeOption.Name,
+            Price = customizeOption.Price
         };
     }
 
