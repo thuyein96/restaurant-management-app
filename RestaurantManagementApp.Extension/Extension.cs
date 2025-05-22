@@ -48,6 +48,7 @@ public static class Extension
             MenuItemName = menuItemDto.MenuItemName,
             Description = menuItemDto.Description,
             Price = menuItemDto.Price,
+            ImageUrl = menuItemDto.ImageUrl,
             CategoryId = menuItemDto.CategoryId,
             MenuItemCustomizeOptions = menuItemDto.CustomizeOptions
                 .Select(x => new TblMenuItemCustomizeOption

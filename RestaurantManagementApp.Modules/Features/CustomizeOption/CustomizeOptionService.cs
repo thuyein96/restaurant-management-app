@@ -19,6 +19,12 @@ public class CustomizeOptionService : ICustomizeOptionService
             var lst = await _dbContext
                 .TblCustomizeOptions
                 .ToListAsync();
+            
+            if (lst is null || lst.Count == 0)
+            {
+                return Result<IEnumerable<CustomizeOptionDto>>.NotFound("Customize Option Not Found.");
+            }
+
             result = Result<IEnumerable<CustomizeOptionDto>>.Success(lst.Select(x => x.ToDto()));
         }
         catch (Exception ex)
@@ -37,6 +43,11 @@ public class CustomizeOptionService : ICustomizeOptionService
             var option = await _dbContext
                 .TblCustomizeOptions
                 .FirstOrDefaultAsync(x => x.CustomizeOptionId == id);
+            if (option is null)
+            {
+                return Result<CustomizeOptionDto>.NotFound("Customize Option Not Found.");
+            }
+
             result = Result<CustomizeOptionDto>.Success(option.ToDto());
         }
         catch (Exception ex)
