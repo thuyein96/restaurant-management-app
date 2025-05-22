@@ -17,9 +17,34 @@ public class MenuItemService : IMenuItemService
         Result<IEnumerable<MenuItemDto>> result;
         try
         {
-            var lst = await _dbContext
-                .TblMenuItems
-                .ToListAsync();
+            var lst = await _dbContext.TblMenuItems
+                .Include(f => f.MenuItemCustomizeOptions)
+                .ThenInclude(j => j.CustomizeOption)
+                .Select(f => new TblMenuItem
+                {
+                    MenuItemId = f.MenuItemId,
+                    MenuItemName = f.MenuItemName,
+                    MenuItemCustomizeOptions = f.MenuItemCustomizeOptions.Select(
+                        j => new TblMenuItemCustomizeOption
+                    {
+                        MenuItemCustomizeOptionId = j.MenuItemCustomizeOptionId,
+                        MenuItemId = j.MenuItemId,
+                        CustomizeOptionId = j.CustomizeOptionId,
+                        CustomizeOption = new TblCustomizeOption
+                        {
+                            CustomizeOptionId = j.CustomizeOption.CustomizeOptionId,
+                            Name = j.CustomizeOption.Name,
+                            Price = j.CustomizeOption.Price
+                        }
+                    }).ToList()
+                }).ToListAsync();
+
+            if (lst is null || lst.Count == 0)
+            {
+                result = Result<IEnumerable<MenuItemDto>>.NotFound("Menu Item Not Found.");
+                goto result;
+            }
+
             result = Result<IEnumerable<MenuItemDto>>.Success(lst.Select(x => x.ToDto()));
         }
         catch (Exception ex)
