@@ -13,4 +13,9 @@ public class AppDbContext : DbContext
     public virtual DbSet<TblCustomizeOption> TblCustomizeOptions { get; set; }
 
     public virtual DbSet<TblMenuItemCustomizeOption> TblMenuItemCustomizeOptions { get; set; }
+    public virtual DbSet<TblCart> TblCarts { get; set; }
+    public virtual DbSet<TblCartItem> TblCartItems { get; set; }
+    public virtual DbSet<TblUser> TblUsers { get; set; }
+    public virtual DbSet<TblCustomer> TblCustomers { get; set; }
+    public virtual DbSet<TblAdmin> TblAdmins { get; set; }
 }
