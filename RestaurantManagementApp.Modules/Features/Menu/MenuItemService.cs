@@ -15,6 +15,7 @@ public class MenuItemService : IMenuItemService
         try
         {
             var lst = await _dbContext.TblMenuItems
+                .Include(f => f.Category)
                            .Include(f => f.MenuItemCustomizeOptions)
                            .ThenInclude(j => j.CustomizeOption)
                            .ToListAsync();
@@ -22,7 +23,7 @@ public class MenuItemService : IMenuItemService
             if (lst is null || lst.Count == 0)
             {
                 result = Result<IEnumerable<MenuItemDto>>.NotFound("Menu Item Not Found.");
-                goto result;
+                return result;
             }
 
             result = Result<IEnumerable<MenuItemDto>>.Success(lst.Select(x => x.ToDto()));
@@ -70,7 +71,7 @@ public class MenuItemService : IMenuItemService
             if (isDuplicate)
             {
                 result = Result<MenuItemDto>.Duplicate("Menu Item Name already exists.");
-                goto result;
+                return result;
             }
 
             await _dbContext.TblMenuItems.AddAsync(menuItemDto.ToEntity());
@@ -96,7 +97,7 @@ public class MenuItemService : IMenuItemService
             if (menuItem is null)
             {
                 result = Result<MenuItemDto>.NotFound("Menu Item Not Found.");
-                goto result;
+                return result;
             }
 
             bool isDuplicate = await IsMenuItemDuplicate(
@@ -105,7 +106,7 @@ public class MenuItemService : IMenuItemService
             if (isDuplicate)
             {
                 result = Result<MenuItemDto>.Duplicate("Menu Item Name already exists.");
-                goto result;
+                return result;
             }
 
             menuItem.MenuItemName = menuItemDto.MenuItemName;
@@ -137,7 +138,7 @@ public class MenuItemService : IMenuItemService
             if (menuItem is null)
             {
                 result = Result<MenuItemDto>.NotFound("Menu Item Not Found.");
-                goto result;
+                return result;
             }
 
             _dbContext.TblMenuItems.Remove(menuItem);
