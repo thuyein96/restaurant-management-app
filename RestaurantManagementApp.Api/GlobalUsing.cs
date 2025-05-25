@@ -8,7 +8,5 @@ global using Microsoft.EntityFrameworkCore;
 global using RestaurantManagementApp.DbService.AppDbContextModels;
 global using RestaurantManagementApp.Modules.Features.Menu;
 global using RestaurantManagementApp.Dtos.Features.MenuItem;
-
-
-
-
+global using RestaurantManagementApp.Dtos.Features.Cart;
+global using RestaurantManagementApp.Modules.Features.Cart;

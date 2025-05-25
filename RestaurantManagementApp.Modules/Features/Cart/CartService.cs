@@ -111,7 +111,10 @@ public class CartService : ICartService
         return result;
     }
 
-    public async Task<Result<CartDto>> UpdateCartAsync(Guid cartId, CreateCartDto cartDto)
+    public async Task<Result<CartDto>> UpdateCartAsync(
+        Guid cartId, 
+        UpdateCartDto cartDto
+        )
     {
         Result<CartDto> result;
         try
@@ -137,7 +140,7 @@ public class CartService : ICartService
         return result;
     }
 
-    public async Task<Result<CartItemDto>> AddCartItemAsync(CreateCartItemDto cartItemDto)
+    public async Task<Result<CartItemDto>> AddCartItemAsync(Guid cartId, CreateCartItemDto cartItemDto)
     {
         Result<CartItemDto> result;
         try
