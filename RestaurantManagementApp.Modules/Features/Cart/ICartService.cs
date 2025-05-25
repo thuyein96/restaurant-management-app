@@ -7,8 +7,8 @@ public interface ICartService
     Task<Result<CartDto>> GetCartByCustomerIdAsync(Guid customerId);
     Task<Result<CartDto>> CreateCartAsync(CreateCartDto cartDto);
     Task<Result<CartDto>> UpdateCartAsync(Guid cartId, CreateCartDto cartDto);
-    Task<Result<CartDto>> AddCartItemAsync(CreateCartItemDto cartItemDto);
-    Task<Result<CartDto>> RemoveCartItemAsync(Guid cartId, Guid cartItemId);
-    Task<Result<CartDto>> UpdateCartItemAsync(Guid cartId, UpdateCartItemDto cartItemDto);
+    Task<Result<CartItemDto>> AddCartItemAsync(CreateCartItemDto cartItemDto);
+    Task<Result<CartItemDto>> RemoveCartItemAsync(Guid cartId, Guid cartItemId);
+    Task<Result<CartItemDto>> UpdateCartItemAsync(Guid cartId, UpdateCartItemDto cartItemDto);
     Task<Result<CartDto>> DeleteCartAsync(Guid cartId);
 }

@@ -1,4 +1,5 @@
-﻿using RestaurantManagementApp.Modules.Features.CustomizeOption;
+﻿using RestaurantManagementApp.Modules.Features.Cart;
+using RestaurantManagementApp.Modules.Features.CustomizeOption;
 
 namespace RestaurantManagementApp.Api;
 
@@ -28,6 +29,7 @@ public static class DependencyInjection
         return services
             .AddScoped<ICategoryService, CategoryService>()
             .AddScoped<IMenuItemService, MenuItemService>()
-            .AddScoped<ICustomizeOptionService, CustomizeOptionService>();
+            .AddScoped<ICustomizeOptionService, CustomizeOptionService>()
+            .AddScoped<ICartService, CartService>();
     }
 }

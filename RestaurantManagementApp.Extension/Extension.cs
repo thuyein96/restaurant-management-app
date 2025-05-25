@@ -1,7 +1,4 @@
-﻿using RestaurantManagementApp.Dtos.Features.Cart;
-using RestaurantManagementApp.Dtos.Features.User;
-
-namespace RestaurantManagementApp.Extension;
+﻿namespace RestaurantManagementApp.Extension;
 
 public static class Extension
 {
@@ -197,11 +194,10 @@ public static class Extension
         };
     }
 
-    public static TblCartItem ToEntity(this CartItemDto cartItemDto)
+    public static TblCartItem ToEntity(this CreateCartItemDto cartItemDto)
     {
         return new TblCartItem
         {
-            Id = cartItemDto.CartItemId,
             CartId = cartItemDto.CartId,
             MenuItemId = cartItemDto.MenuItemId,
             Quantity = cartItemDto.Quantity
@@ -220,11 +216,10 @@ public static class Extension
         };
     }
 
-    public static TblCart ToEntity(this CartDto cartDto)
+    public static TblCart ToEntity(this CreateCartDto cartDto)
     {
         return new TblCart
         {
-            Id = cartDto.CartId,
             CustomerId = cartDto.CustomerId,
             Total = cartDto.Total,
             CartItems = cartDto.CartItems
