@@ -15,26 +15,9 @@ public class MenuItemService : IMenuItemService
         try
         {
             var lst = await _dbContext.TblMenuItems
-                .Include(f => f.MenuItemCustomizeOptions)
-                .ThenInclude(j => j.CustomizeOption)
-                .Select(f => new TblMenuItem
-                {
-                    MenuItemId = f.MenuItemId,
-                    MenuItemName = f.MenuItemName,
-                    MenuItemCustomizeOptions = f.MenuItemCustomizeOptions.Select(
-                        j => new TblMenuItemCustomizeOption
-                    {
-                        MenuItemCustomizeOptionId = j.MenuItemCustomizeOptionId,
-                        MenuItemId = j.MenuItemId,
-                        CustomizeOptionId = j.CustomizeOptionId,
-                        CustomizeOption = new TblCustomizeOption
-                        {
-                            CustomizeOptionId = j.CustomizeOption.CustomizeOptionId,
-                            Name = j.CustomizeOption.Name,
-                            Price = j.CustomizeOption.Price
-                        }
-                    }).ToList()
-                }).ToListAsync();
+                           .Include(f => f.MenuItemCustomizeOptions)
+                           .ThenInclude(j => j.CustomizeOption)
+                           .ToListAsync();
 
             if (lst is null || lst.Count == 0)
             {
