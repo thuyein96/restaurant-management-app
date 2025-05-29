@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RestaurantManagementApp.DbService\RestaurantManagementApp.DbService.csproj" />
+    <ProjectReference Include="..\RestaurantManagementApp.Utils\RestaurantManagementApp.Utils.csproj" />
   </ItemGroup>
 
 </Project>
