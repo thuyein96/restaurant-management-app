@@ -1,4 +1,4 @@
-﻿namespace RestaurantManagementApp.Dtos.Features.Reservation;
+﻿namespace RestaurantManagementApp.Dtos.Features.Table;
 
 public class TableDto
 {

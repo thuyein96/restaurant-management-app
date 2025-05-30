@@ -1,27 +1,30 @@
 ﻿namespace RestaurantManagementApp.Modules.Helper;
 
-public class QueryHelper
+public abstract class QueryHelper<T>
+    where T : class
 {
     private readonly AppDbContext _dbContext;
     public QueryHelper(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
-    private async Task<bool> IsDuplicate(
-        Expression<Func<object, bool>> expression
+    public async Task<bool> IsDuplicate(
+        Expression<Func<T, bool>> expression
     )
     {
-        return await _dbContext.Set<object?>().AnyAsync(
+        return await _dbContext.Set<T?>().AnyAsync(
             expression
         );
     }
 
-    private async Task<object?> GetSpecific(
-        Expression<Func<object, bool>> expression
+    public async Task<T?> GetSpecific(
+        Expression<Func<T, bool>> expression
     )
     {
-        return await _dbContext.Set<object?>().FirstOrDefaultAsync(
+        return await _dbContext.Set<T?>().FirstOrDefaultAsync(
             expression
         );
     }
+
+
 }
