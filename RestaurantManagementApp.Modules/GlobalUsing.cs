@@ -12,4 +12,8 @@ global using Microsoft.EntityFrameworkCore;
 global using RestaurantManagementApp.Utils;
 global using RestaurantManagementApp.Extension;
 global using Microsoft.EntityFrameworkCore;
-
+global using RestaurantManagementApp.Dtos.Features.Table;
+global using RestaurantManagementApp.Extension.Mapping.Table;
+global using RestaurantManagementApp.Utils.Enum;
+global using RestaurantManagementApp.Dtos.Features.BookingSlot;
+global using RestaurantManagementApp.Extension.Mapping.BookingSlot;

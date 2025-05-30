@@ -10,3 +10,7 @@ global using RestaurantManagementApp.Modules.Features.Menu;
 global using RestaurantManagementApp.Dtos.Features.MenuItem;
 global using RestaurantManagementApp.Dtos.Features.Cart;
 global using RestaurantManagementApp.Modules.Features.Cart;
+global using RestaurantManagementApp.Utils.Enum;
+global using RestaurantManagementApp.Modules.Features.Table;
+global using RestaurantManagementApp.Dtos.Features.BookingSlot;
+global using RestaurantManagementApp.Modules.Features.BookingSlot;

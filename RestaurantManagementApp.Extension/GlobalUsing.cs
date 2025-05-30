@@ -6,3 +6,7 @@ global using RestaurantManagementApp.Dtos.Features.MenuItem;
 global using RestaurantManagementApp.Dtos.Features.MenuItemCustomizeOption;
 global using RestaurantManagementApp.Dtos.Features.Cart;
 global using RestaurantManagementApp.Dtos.Features.User;
+global using RestaurantManagementApp.Dtos.Features.Table;
+global using RestaurantManagementApp.Utils.Enum;
+global using RestaurantManagementApp.Dtos.Features.Table;
+global using RestaurantManagementApp.Dtos.Features.BookingSlot;

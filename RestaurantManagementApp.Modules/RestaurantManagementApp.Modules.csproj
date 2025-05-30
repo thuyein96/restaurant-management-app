@@ -14,4 +14,8 @@
     <ProjectReference Include="..\RestaurantManagementApp.Utils\RestaurantManagementApp.Utils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Reservation\" />
+  </ItemGroup>
+
 </Project>
