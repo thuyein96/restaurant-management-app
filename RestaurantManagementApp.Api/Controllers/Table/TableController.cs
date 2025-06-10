@@ -26,16 +26,16 @@ public class TableController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateTable([FromBody] string tableNumber)
+    public async Task<IActionResult> CreateTable(CreateTableDto newtable)
     {
-        var result = await _tableService.CreateTableAsync(tableNumber);
+        var result = await _tableService.CreateTableAsync(newtable);
         return Content(result);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateTable(Guid id, [FromBody] TableStatus tableStatus)
+    [HttpPut]
+    public async Task<IActionResult> UpdateTable(UpdateTableDto updatetable)
     {
-        var result = await _tableService.UpdateTableAsync(id, tableStatus);
+        var result = await _tableService.UpdateTableAsync(updatetable);
         return Content(result);
     }
 

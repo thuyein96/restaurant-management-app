@@ -49,7 +49,7 @@ public class TableService : ITableService
         return result;
     }
 
-    public async Task<Result<TableDto>> CreateTableAsync(string tableNumber)
+    public async Task<Result<TableDto>> CreateTableAsync(CreateTableDto newTable)
     {
         Result<TableDto> result;
         try
@@ -57,7 +57,7 @@ public class TableService : ITableService
             //check for duplicate table number
             var isDuplicate = await _dbContext
                 .TblTables
-                .AnyAsync(x => x.TableNumber == tableNumber);
+                .AnyAsync(x => x.TableNumber == newTable.TableNumber);
             if (isDuplicate)
             {
                 result = Result<TableDto>.Failure("Duplicate Table Number.");
@@ -66,7 +66,7 @@ public class TableService : ITableService
 
             await _dbContext
                 .TblTables
-                .AddAsync(tableNumber.ToEntity());
+                .AddAsync(newTable.TableNumber.ToEntity());
             await _dbContext.SaveChangesAsync();
 
             result = Result<TableDto>.Success();
@@ -79,21 +79,21 @@ public class TableService : ITableService
         return result;
     }
 
-    public async Task<Result<TableDto>> UpdateTableAsync(Guid tableId, TableStatus tableStatus)
+    public async Task<Result<TableDto>> UpdateTableAsync(UpdateTableDto updatetable)
     {
         Result<TableDto> result;
         try
         {
             var table = await _dbContext
                 .TblTables
-                .FirstOrDefaultAsync(x => x.Id == tableId);
+                .FirstOrDefaultAsync(x => x.Id == updatetable.TableId);
             if (table is null)
             {
                 result = Result<TableDto>.NotFound("Table Not Found.");
                 return result;
             }
 
-            table.IsAvailable = tableStatus.Name;
+            table.IsAvailable = updatetable.Status.Name;
             _dbContext.TblTables.Update(table);
             await _dbContext.SaveChangesAsync();
             result = Result<TableDto>.Success(table.ToDto());

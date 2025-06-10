@@ -6,6 +6,7 @@ public static class TableMapper
     {
         return new TableDto
         {
+            Id = dataModel.Id,
             TableNumber = dataModel.TableNumber,
             IsAvailable = TableStatus.FromName(dataModel.IsAvailable, ignoreCase: true)
         };

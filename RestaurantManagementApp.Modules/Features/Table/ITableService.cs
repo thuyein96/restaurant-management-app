@@ -4,8 +4,8 @@ public interface ITableService
 {
     Task<Result<IEnumerable<TableDto>>> GetTablesAsync();
     Task<Result<TableDto>> GetTableByIdAsync(Guid tableId);
-    Task<Result<TableDto>> CreateTableAsync(string tableNumber);
-    Task<Result<TableDto>> UpdateTableAsync(Guid tableId, TableStatus tableStatus);
+    Task<Result<TableDto>> CreateTableAsync(CreateTableDto newTable);
+    Task<Result<TableDto>> UpdateTableAsync(UpdateTableDto updatetable);
     Task<Result<TableDto>> DeleteTableAsync(Guid tableId);
 
 }

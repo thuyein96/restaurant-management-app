@@ -1,8 +1,6 @@
 ﻿namespace RestaurantManagementApp.Dtos.Features.Table;
 
-public class TableDto
+public class CreateTableDto
 {
-    public Guid Id { get; set; }
     public string TableNumber { get; set; }
-    public TableStatus IsAvailable { get; set; }
 }
