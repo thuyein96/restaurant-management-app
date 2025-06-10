@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantManagementApp.DbService.AppDbContextModels;
 
@@ -11,9 +12,11 @@ using RestaurantManagementApp.DbService.AppDbContextModels;
 namespace RestaurantManagementApp.DbService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250606053829_order-added")]
+    partial class orderadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,58 +216,6 @@ namespace RestaurantManagementApp.DbService.Migrations
                     b.ToTable("TblMenuItemCustomizeOptions");
                 });
 
-            modelBuilder.Entity("RestaurantManagementApp.DbService.Tables.TblOrder", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("TblOrders");
-                });
-
-            modelBuilder.Entity("RestaurantManagementApp.DbService.Tables.TblOrderDetails", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("MenuItemId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("SubTotal")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuItemId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("TblOrderDetails");
-                });
-
             modelBuilder.Entity("RestaurantManagementApp.DbService.Tables.TblReservation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -429,36 +380,6 @@ namespace RestaurantManagementApp.DbService.Migrations
                     b.Navigation("MenuItem");
                 });
 
-            modelBuilder.Entity("RestaurantManagementApp.DbService.Tables.TblOrder", b =>
-                {
-                    b.HasOne("RestaurantManagementApp.DbService.Tables.TblCustomer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("RestaurantManagementApp.DbService.Tables.TblOrderDetails", b =>
-                {
-                    b.HasOne("RestaurantManagementApp.DbService.Tables.TblMenuItem", "MenuItem")
-                        .WithMany()
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestaurantManagementApp.DbService.Tables.TblOrder", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MenuItem");
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("RestaurantManagementApp.DbService.Tables.TblReservation", b =>
                 {
                     b.HasOne("RestaurantManagementApp.DbService.Tables.TblBookingSlot", "BookingSlot")
@@ -499,11 +420,6 @@ namespace RestaurantManagementApp.DbService.Migrations
             modelBuilder.Entity("RestaurantManagementApp.DbService.Tables.TblMenuItem", b =>
                 {
                     b.Navigation("MenuItemCustomizeOptions");
-                });
-
-            modelBuilder.Entity("RestaurantManagementApp.DbService.Tables.TblOrder", b =>
-                {
-                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

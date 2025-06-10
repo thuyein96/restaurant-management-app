@@ -21,4 +21,6 @@ public class AppDbContext : DbContext
     public virtual DbSet<TblBookingSlot> TblBookingSlots { get; set; }
     public virtual DbSet<TblReservation> TblReservations { get; set; }
     public virtual DbSet<TblTable> TblTables { get; set; }
+    public virtual DbSet<TblOrder> TblOrders { get; set; }
+    public virtual DbSet<TblOrderDetails> TblOrderDetails { get; set; }
 }
