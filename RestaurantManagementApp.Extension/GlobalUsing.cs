@@ -10,3 +10,4 @@ global using RestaurantManagementApp.Dtos.Features.Table;
 global using RestaurantManagementApp.Utils.Enum;
 global using RestaurantManagementApp.Dtos.Features.Table;
 global using RestaurantManagementApp.Dtos.Features.BookingSlot;
+global using RestaurantManagementApp.Dtos.Features.Order;

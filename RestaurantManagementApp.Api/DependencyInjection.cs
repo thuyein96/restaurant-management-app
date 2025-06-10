@@ -1,7 +1,4 @@
-﻿using RestaurantManagementApp.Modules.Features.Cart;
-using RestaurantManagementApp.Modules.Features.CustomizeOption;
-
-namespace RestaurantManagementApp.Api;
+﻿namespace RestaurantManagementApp.Api;
 
 public static class DependencyInjection
 {
@@ -30,6 +27,10 @@ public static class DependencyInjection
             .AddScoped<ICategoryService, CategoryService>()
             .AddScoped<IMenuItemService, MenuItemService>()
             .AddScoped<ICustomizeOptionService, CustomizeOptionService>()
-            .AddScoped<ICartService, CartService>();
+            .AddScoped<ICartService, CartService>()
+            .AddScoped<IBookingSlotService, BookingSlotService>()
+            .AddScoped<IReservationService, ReservationService>()
+            .AddScoped<ITableService, TableService>()
+            .AddScoped<IOrderService, OrderService>();
     }
 }

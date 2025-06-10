@@ -17,3 +17,7 @@ global using RestaurantManagementApp.Extension.Mapping.Table;
 global using RestaurantManagementApp.Utils.Enum;
 global using RestaurantManagementApp.Dtos.Features.BookingSlot;
 global using RestaurantManagementApp.Extension.Mapping.BookingSlot;
+global using RestaurantManagementApp.Dtos.Features.Reservation;
+global using RestaurantManagementApp.Extension.Mapping.Reservation;
+global using RestaurantManagementApp.Dtos.Features.Order;
+global using RestaurantManagementApp.Extension.Mapping.Order;
