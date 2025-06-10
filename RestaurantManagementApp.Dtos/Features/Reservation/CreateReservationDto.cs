@@ -1,8 +1,7 @@
 ﻿namespace RestaurantManagementApp.Dtos.Features.Reservation;
 
-public class ReservationDto
+public class CreateReservationDto
 {
-    public Guid Id { get; set; }
     public int NumberOfPeople { get; set; }
     public string SpecialRequest { get; set; }
     public bool IsConfirm { get; set; }

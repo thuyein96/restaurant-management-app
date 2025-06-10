@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RestaurantManagementApp.DbService.Tables;
-using System.Threading;
-
-namespace RestaurantManagementApp.Modules.Features.Category;
+﻿namespace RestaurantManagementApp.Modules.Features.Category;
 
 public class CategoryService : ICategoryService
 {
@@ -53,7 +49,7 @@ public class CategoryService : ICategoryService
             result = Result<CategoryDto>.Failure(ex);
         }
 
-        result:
+    result:
         return result;
     }
 
@@ -83,7 +79,7 @@ public class CategoryService : ICategoryService
             result = Result<CategoryDto>.Failure(ex);
         }
 
-        result:
+    result:
         return result;
     }
 
@@ -113,7 +109,7 @@ public class CategoryService : ICategoryService
             result = Result<CategoryDto>.Failure(ex);
         }
 
-        result:
+    result:
         return result;
     }
 

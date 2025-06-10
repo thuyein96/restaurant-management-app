@@ -84,7 +84,6 @@ public class MenuItemService : IMenuItemService
             result = Result<MenuItemDto>.Failure(ex);
         }
 
-        result:
         return result;
     }
 
