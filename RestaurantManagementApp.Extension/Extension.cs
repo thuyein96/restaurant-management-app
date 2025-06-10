@@ -1,6 +1,4 @@
-﻿using OrderDto = RestaurantManagementApp.Dtos.Features.MenuItem.OrderDto;
-
-namespace RestaurantManagementApp.Extension;
+﻿namespace RestaurantManagementApp.Extension;
 
 public static class Extension
 {
@@ -192,7 +190,7 @@ public static class Extension
             CartId = cartItem.CartId,
             Cart = cartItem.Cart.ToDto(),
             MenuItemId = cartItem.MenuItemId,
-            Order = cartItem.MenuItem.ToDto(),
+            MenuItem = cartItem.MenuItem.ToDto(),
         };
     }
 
