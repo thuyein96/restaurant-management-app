@@ -13,7 +13,9 @@ public class OrderService : IOrderService
         Result<OrderDto> result;
         try
         {
-            await _appDbContext.TblOrders.AddAsync(createOrderDto.ToEntity());
+            var calculatedOrder = await CreateOrderDtoWithTotalAmount(createOrderDto);
+
+            await _appDbContext.TblOrders.AddAsync(calculatedOrder.ToEntity());
             await _appDbContext.SaveChangesAsync();
 
             result = Result<OrderDto>.SaveSuccess();
@@ -26,6 +28,18 @@ public class OrderService : IOrderService
         return result;
     }
 
+    private async Task<OrderDto> CreateOrderDtoWithTotalAmount(CreateOrderDto createOrderDto)
+    {
+        var order = new OrderDto()
+        {
+            CustomerId = createOrderDto.CustomerId,
+            OrderDate = createOrderDto.OrderDate,
+            OrderDetails = await CalculatedOrderItems(createOrderDto)
+        };
+        decimal totalAmount = await CalculateOrder(order);
+        order.TotalAmount = totalAmount;
+        return order;
+    }
 
 
     public async Task<Result<OrderDto>> GetOrderByIdAsync(Guid orderId)
@@ -150,5 +164,34 @@ public class OrderService : IOrderService
         return await _appDbContext.TblOrders.FirstOrDefaultAsync(
             expression
         );
+    }
+
+    private async Task<List<OrderDetailsDto>> CalculatedOrderItems(CreateOrderDto order)
+    {
+        var orderItems = new List<OrderDetailsDto>();
+        foreach (var item in order.OrderItems)
+        {
+            var orderItem = new OrderDetailsDto
+            {
+                OrderId = item.OrderId,
+                MenuItemId = item.MenuItemId,
+                Quantity = item.Quantity,
+                UnitPrice = item.UnitPrice,
+                SubTotal = await CalculateOrderItem(item)
+            };
+            orderItems.Add(orderItem);
+        }
+
+        return orderItems;
+    }
+
+    private async Task<decimal> CalculateOrder(OrderDto orders)
+    {
+        return orders.OrderDetails.Sum(x => x.SubTotal);
+    }
+
+    private async Task<decimal> CalculateOrderItem(CreateOrderDetailsDto orderItem)
+    {
+        return orderItem.Quantity * orderItem.UnitPrice;
     }
 }

@@ -35,7 +35,6 @@ public static class OrderDetailsMapper
             OrderId = datamodel.OrderId,
             MenuItemId = datamodel.MenuItemId,
             UnitPrice = datamodel.UnitPrice,
-            SubTotal = datamodel.SubTotal,
             Quantity = datamodel.Quantity
         };
     }
