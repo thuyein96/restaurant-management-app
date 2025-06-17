@@ -20,3 +20,5 @@ global using RestaurantManagementApp.Modules.Features.Reservation;
 global using RestaurantManagementApp.Dtos.Features.Order;
 global using RestaurantManagementApp.Modules.Features.Order;
 global using RestaurantManagementApp.Modules.Features.CustomizeOption;
+global using RestaurantManagementApp.Dtos.Features.Queue;
+global using RestaurantManagementApp.Modules.Features.Queue;

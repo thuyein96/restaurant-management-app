@@ -31,6 +31,7 @@ public static class DependencyInjection
             .AddScoped<IBookingSlotService, BookingSlotService>()
             .AddScoped<IReservationService, ReservationService>()
             .AddScoped<ITableService, TableService>()
-            .AddScoped<IOrderService, OrderService>();
+            .AddScoped<IOrderService, OrderService>()
+            .AddScoped<IQueueService, QueueService>();
     }
 }

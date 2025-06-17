@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RestaurantManagementApp.DbService\RestaurantManagementApp.DbService.csproj" />
     <ProjectReference Include="..\RestaurantManagementApp.Dtos\RestaurantManagementApp.Dtos.csproj" />
     <ProjectReference Include="..\RestaurantManagementApp.Extension\RestaurantManagementApp.Extension.csproj" />

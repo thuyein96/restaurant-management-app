@@ -21,3 +21,7 @@ global using RestaurantManagementApp.Dtos.Features.Reservation;
 global using RestaurantManagementApp.Extension.Mapping.Reservation;
 global using RestaurantManagementApp.Dtos.Features.Order;
 global using RestaurantManagementApp.Extension.Mapping.Order;
+global using RestaurantManagementApp.Dtos.Features.Queue;
+global using Microsoft.AspNetCore.SignalR;
+global using RestaurantManagementApp.Extension.Mapping.Queue;
+global using RestaurantManagementApp.Modules.Helper;

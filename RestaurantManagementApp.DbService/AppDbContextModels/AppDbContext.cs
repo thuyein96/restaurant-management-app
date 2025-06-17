@@ -23,4 +23,5 @@ public class AppDbContext : DbContext
     public virtual DbSet<TblTable> TblTables { get; set; }
     public virtual DbSet<TblOrder> TblOrders { get; set; }
     public virtual DbSet<TblOrderDetails> TblOrderDetails { get; set; }
+    public virtual DbSet<TblQueue> TblQueues { get; set; }
 }
