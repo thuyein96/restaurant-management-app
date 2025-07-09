@@ -1,42 +1,50 @@
-﻿using RestaurantManagementApp.Dtos.Features.Reservation;
-using RestaurantManagementApp.Modules.Features.Reservation;
-
-namespace RestaurantManagementApp.Api.Controllers.Reservation;
+﻿namespace RestaurantManagementApp.Api.Controllers.Reservation;
 
 [Route("api/[controller]")]
 [ApiController]
 public class ReservationController : BaseController
 {
     private readonly IReservationService _reservationService;
+    private readonly IEmailService _emailService;
 
-    public ReservationController(IReservationService reservationService)
+    public ReservationController(IReservationService reservationService,
+        IEmailService emailService)
     {
         _reservationService = reservationService;
+        _emailService = emailService;
     }
-
+    
+    [SwaggerOperation(Summary = "Get all reservations")]
     [HttpGet]
     public async Task<IActionResult> GetReservations()
     {
         var result = await _reservationService.GetReservationsAsync();
         return Content(result);
     }
-
+    
+    [SwaggerOperation(Summary = "Get reservation by id")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetReservationById(Guid id)
     {
         var result = await _reservationService.GetReservationByIdAsync(id);
         return Content(result);
     }
-
+    
+    [SwaggerOperation(Summary = "Create a reservation")]
     [HttpPost]
     public async Task<IActionResult> CreateReservation(
         [FromBody] CreateReservationDto createReservationDto
     )
     {
         var result = await _reservationService.CreateReservationAsync(createReservationDto);
-        return Content(result);
+        var email = await _emailService.SendEmailAsync(createReservationDto.Email,
+            "Reservation Confirmation",
+            "<html><head></head><body><p>Hello,</p>This is my first transactional email sent from Brevo.</p></body></html>");
+        
+        return Ok(email);
     }
-
+    
+    [SwaggerOperation(Summary = "Update an existing reservation")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateReservation(
         Guid id,
@@ -46,7 +54,8 @@ public class ReservationController : BaseController
         var result = await _reservationService.UpdateReservationAsync(id, updateReservationDto);
         return Content(result);
     }
-
+    
+    [SwaggerOperation(Summary = "Delete a reservation")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteReservation(Guid id)
     {
@@ -54,25 +63,16 @@ public class ReservationController : BaseController
         return Content(result);
     }
 
-    // Additional endpoints specific to reservations
-    [HttpGet("customer/{customerId}")]
-    public async Task<IActionResult> GetReservationsByCustomer(Guid customerId)
+    [SwaggerOperation(Summary = "Search reservations by reservation number or date")]
+    [HttpGet("search")]
+    public async Task<IActionResult> GetReservationsByCustomer([FromQuery] string? reservationNumber, 
+                                                                [FromQuery] DateOnly? date)
     {
-        var result = await _reservationService.GetReservationsByCustomerAsync(customerId);
-        return Content(result);
-    }
-
-    [HttpPut("{id}/confirm")]
-    public async Task<IActionResult> ConfirmReservation(Guid id)
-    {
-        var result = await _reservationService.ConfirmReservationAsync(id);
-        return Content(result);
-    }
-
-    [HttpGet("date/{date}")]
-    public async Task<IActionResult> GetReservationsByDate(DateOnly date)
-    {
-        var result = await _reservationService.GetReservationsByDateAsync(date);
+        if (string.IsNullOrWhiteSpace(reservationNumber) || date == null)
+        {
+            return BadRequest("Need reservation number or date");
+        }
+        var result = await _reservationService.GetReservationsWithQueryValuesAsync(reservationNumber, date);
         return Content(result);
     }
 }

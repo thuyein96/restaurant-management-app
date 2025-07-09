@@ -11,6 +11,7 @@ public class MenuItemController : BaseController
         _menuItemService = menuItemService;
     }
 
+    [SwaggerOperation(Summary = "Get all existing menu items")]
     [HttpGet]
     public async Task<IActionResult> GetMenuItems()
     {
@@ -18,13 +19,15 @@ public class MenuItemController : BaseController
         return Content(result);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetMenuItemById(Guid id)
+    [SwaggerOperation(Summary = "Get an menu item by id")]
+    [HttpGet("{menuitemid}")]
+    public async Task<IActionResult> GetMenuItemById(Guid menuitemid)
     {
-        var result = await _menuItemService.GetMenuItemByIdAsync(id);
+        var result = await _menuItemService.GetMenuItemByIdAsync(menuitemid);
         return Content(result);
     }
 
+    [SwaggerOperation(Summary = "Create an menu item")]
     [HttpPost]
     public async Task<IActionResult> CreateMenuItem(
         [FromBody] CreateMenuItemDto menuItemDto
@@ -34,20 +37,54 @@ public class MenuItemController : BaseController
         return Content(result);
     }
 
-    [HttpPut("{id}")]
+    [SwaggerOperation( Summary = "Update an existing menu item" )]
+    [HttpPut("{menuitemid}")]
     public async Task<IActionResult> UpdateMenuItem(
-        Guid id,
+        Guid menuitemid,
         [FromBody] UpdateMenuItemDto menuItemDto
     )
     {
-        var result = await _menuItemService.UpdateMenuItemAsync(id, menuItemDto);
+        var result = await _menuItemService.UpdateMenuItemAsync(menuitemid, menuItemDto);
         return Content(result);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteMenuItem(Guid id)
+    [SwaggerOperation(Summary = "Update menu item's category")]
+    [HttpPatch("{menuitemid}/category")]
+    public async Task<IActionResult> AddMenuItemToCategory(Guid menuitemid, [FromBody] Guid categoryId)
     {
-        var result = await _menuItemService.DeleteMenuItemAsync(id);
+        var result = await _menuItemService.AddMenuItemCategoryAsync( menuitemid, categoryId);
+        return Content(result);
+    }
+
+    [SwaggerOperation(Summary = "Remove menu item from category")]
+    [HttpDelete("{menuitemid}/category")]
+    public async Task<IActionResult> RemoveMenuItemFromCategory(Guid menuitemid)
+    {
+        var result = await _menuItemService.RemoveMenuItemCategoryAsync(menuitemid);
+        return Content(result);
+    }
+
+    [SwaggerOperation(Summary = "Delete an menu item")]
+    [HttpDelete("{menuitemid}")]
+    public async Task<IActionResult> DeleteMenuItem(Guid menuitemid)
+    {
+        var result = await _menuItemService.DeleteMenuItemAsync(menuitemid);
+        return Content(result);
+    }
+
+    [SwaggerOperation(Summary = "Add customize options to menu.")]
+    [HttpPatch("{menuitemid}/customize-options")]
+    public async Task<IActionResult> AddCustomizeOptionsToMenu(Guid menuitemid, [FromBody] Guid customizeOptionsId)
+    {
+        var result = await _menuItemService.AddCustomizeOptionsToMenuAsync(menuitemid, customizeOptionsId);
+        return Content(result);
+    }
+
+    [SwaggerOperation(Summary = "Remove customize options from menu item.")]
+    [HttpDelete("{menuitemid}/customize-options")]
+    public async Task<IActionResult> RemoveCustomizeOptionsFromMenu(Guid menuitemid, [FromBody] Guid customizeOptionsId)
+    {
+        var result = await _menuItemService.RemoveCustomizeOptionsFromMenuAsync(menuitemid, customizeOptionsId);
         return Content(result);
     }
 }

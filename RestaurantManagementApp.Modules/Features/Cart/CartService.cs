@@ -1,6 +1,4 @@
-﻿using RestaurantManagementApp.Modules.Helper;
-
-namespace RestaurantManagementApp.Modules.Features.Cart;
+﻿namespace RestaurantManagementApp.Modules.Features.Cart;
 
 public class CartService : ICartService
 {

@@ -7,11 +7,12 @@ public static class DependencyInjection
     {
         return services
             .AddDbContextService(builder)
-            .AddDataAccessService();
+            .AddDataAccessService()
+            .AddEmailService(builder);
     }
 
     private static IServiceCollection AddDbContextService(this IServiceCollection services,
-       WebApplicationBuilder builder)
+        WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseMySql(
@@ -32,6 +33,15 @@ public static class DependencyInjection
             .AddScoped<IReservationService, ReservationService>()
             .AddScoped<ITableService, TableService>()
             .AddScoped<IOrderService, OrderService>()
-            .AddScoped<IQueueService, QueueService>();
+            .AddScoped<IQueueService, QueueService>()
+            .AddScoped<IEmailService, BrevoEmailService>();
     }
+
+    private static IServiceCollection AddEmailService(this IServiceCollection services, WebApplicationBuilder builder)
+    {
+        services.Configure<BrevoSettings>(builder.Configuration.GetSection("Brevo"));
+        services.AddHttpClient<IEmailService, BrevoEmailService>();
+        return services;
+    }
+
 }

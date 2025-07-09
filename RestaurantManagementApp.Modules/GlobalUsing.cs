@@ -25,3 +25,7 @@ global using RestaurantManagementApp.Dtos.Features.Queue;
 global using Microsoft.AspNetCore.SignalR;
 global using RestaurantManagementApp.Extension.Mapping.Queue;
 global using RestaurantManagementApp.Modules.Helper;
+global using System.Net.Http.Headers;
+global using brevo_csharp;
+global using Newtonsoft.Json;
+global using Microsoft.Extensions.Options;

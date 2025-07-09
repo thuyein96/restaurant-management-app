@@ -37,7 +37,9 @@ public static class Extension
             Description = dataModel.Description,
             Price = dataModel.Price,
             CategoryId = dataModel.CategoryId,
-            Category = dataModel.Category.ToDto()
+            Category = dataModel.Category?.ToDto(),
+            ImageUrl = dataModel.ImageUrl,
+            CustomizeOptions = dataModel.MenuItemCustomizeOptions.Select(x => x.CustomizeOption.ToDto()).ToList()
         };
     }
 

@@ -13,7 +13,6 @@ public static class ReservationMapper
             SpecialRequest = reservation.SpecialRequest,
             IsConfirm = reservation.IsConfirm,
             BookingSlotId = reservation.BookingSlotId,
-            CustomerId = reservation.CustomerId,
             TableId = reservation.TableId,
             // Add any additional mappings here
         };
@@ -28,7 +27,6 @@ public static class ReservationMapper
             SpecialRequest = dto.SpecialRequest,
             IsConfirm = false,
             BookingSlotId = dto.BookingSlotId,
-            CustomerId = dto.CustomerId,
             TableId = dto.TableId
         };
     }

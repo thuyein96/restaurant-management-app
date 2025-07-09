@@ -16,7 +16,6 @@ public class ReservationService : IReservationService
         {
             var lst = await _dbContext
                 .TblReservations
-                .Include(x => x.Customer)
                 .Include(x => x.Table)
                 .ToListAsync();
             result = Result<IEnumerable<ReservationDto>>.Success(lst.Select(x => x.ToDto()));
@@ -52,9 +51,7 @@ public class ReservationService : IReservationService
 
         return result;
     }
-
-    // Senario: Book by already registered customers
-    // TODO: Book by unregistered customer also
+    
     public async Task<Result<ReservationDto>> CreateReservationAsync(CreateReservationDto reservationDto)
     {
         Result<ReservationDto> result;
@@ -69,6 +66,9 @@ public class ReservationService : IReservationService
                 result = Result<ReservationDto>.Duplicate("Table is already booked for this slot.");
                 return result;
             }
+
+            await ChangeTableStatusAsync(reservationDto.TableId);
+            await ChangeBookingSlotStatusAsync(reservationDto.BookingSlotId);
 
             await _dbContext.TblReservations.AddAsync(reservationDto.ToEntity());
             await _dbContext.SaveChangesAsync();
@@ -157,16 +157,13 @@ public class ReservationService : IReservationService
         return result;
     }
 
-    public async Task<Result<IEnumerable<ReservationDto>>> GetReservationsByCustomerAsync(Guid customerId)
+    public async Task<Result<IEnumerable<ReservationDto>>> GetReservationsWithQueryValuesAsync(string? reservationNumber, DateOnly? date)
     {
         Result<IEnumerable<ReservationDto>> result;
         try
         {
-            var reservations = await _dbContext.TblReservations
-                .Include(x => x.Customer)
-                .Include(x => x.Table)
-                .Where(x => x.CustomerId == customerId)
-                .ToListAsync();
+            var reservations = await QueryReservationsWithGivenValue(reservationNumber, date);
+
 
             result = Result<IEnumerable<ReservationDto>>.Success(reservations.Select(x => x.ToDto()));
         }
@@ -178,57 +175,58 @@ public class ReservationService : IReservationService
         return result;
     }
 
-    public async Task<Result<ReservationDto>> ConfirmReservationAsync(Guid reservationId)
+    private async Task ChangeTableStatusAsync(Guid tableId)
     {
-        Result<ReservationDto> result;
-        try
+        var table = await _dbContext.TblTables.FindAsync(tableId);
+        if (table != null)
         {
-            var reservation = await GetSpecificReservation(
-                x => x.Id == reservationId
-            );
-            if (reservation is null)
-            {
-                result = Result<ReservationDto>.NotFound("Reservation Not Found.");
-                return result;
-            }
-
-            reservation.IsConfirm = true;
-            _dbContext.TblReservations.Update(reservation);
+            table.IsAvailable = TableStatus.Reserved.Name;
+            _dbContext.TblTables.Update(table);
             await _dbContext.SaveChangesAsync();
-
-            result = Result<ReservationDto>.Success(reservation.ToDto());
         }
-        catch (Exception ex)
-        {
-            result = Result<ReservationDto>.Failure(ex);
-        }
-
-        return result;
     }
 
-    public async Task<Result<IEnumerable<ReservationDto>>> GetReservationsByDateAsync(DateOnly date)
+    private async Task ChangeBookingSlotStatusAsync(Guid bookingSlotId)
     {
-        Result<IEnumerable<ReservationDto>> result;
-        try
+        var bookingSlot = await _dbContext.TblBookingSlots.FindAsync(bookingSlotId);
+        if (bookingSlot != null)
         {
-            var reservations = await _dbContext.TblReservations
-                .Include(x => x.Customer)
+            bookingSlot.IsAvailable = BookingSlotStatus.Confirmed.Name;
+            _dbContext.TblBookingSlots.Update(bookingSlot);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    private async Task<List<TblReservation>> QueryReservationsWithGivenValue(string? reservationNumber, DateOnly? date)
+    {
+        var reservations = new List<TblReservation>();
+        if (string.IsNullOrWhiteSpace(reservationNumber))
+        {
+            reservations = await _dbContext.TblReservations
+                .Include(x => x.Table)
+                .Where(x => x.ReservationNumber == reservationNumber)
+                .ToListAsync();
+        }
+        else if (date is not null)
+        {
+            reservations = await _dbContext.TblReservations
                 .Include(x => x.Table)
                 .Include(x => x.BookingSlot)
                 .Where(x => x.BookingSlot.BookingDate == date)
                 .ToListAsync();
-
-            result = Result<IEnumerable<ReservationDto>>.Success(reservations.Select(x => x.ToDto()));
         }
-        catch (Exception ex)
+        else
         {
-            result = Result<IEnumerable<ReservationDto>>.Failure(ex);
+            reservations = await _dbContext.TblReservations
+                .Include(x => x.Table)
+                .Include(x => x.BookingSlot)
+                .Where(x => x.ReservationNumber == reservationNumber && x.BookingSlot.BookingDate == date)
+                .ToListAsync();
         }
 
-        return result;
+        return reservations;
     }
-
-
+    
     private async Task<bool> IsTableBooked(
         Expression<Func<TblReservation, bool>> expression
     )
@@ -243,7 +241,6 @@ public class ReservationService : IReservationService
     )
     {
         return await _dbContext.TblReservations
-            .Include(x => x.Customer)
             .Include(x => x.Table)
             .FirstOrDefaultAsync(expression);
     }
