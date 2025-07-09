@@ -9,12 +9,12 @@ public static class ReservationMapper
         return new ReservationDto
         {
             Id = reservation.Id,
+            ReservationNumber = reservation.ReservationNumber,
             NumberOfPeople = reservation.NumberOfPeople,
             SpecialRequest = reservation.SpecialRequest,
             IsConfirm = reservation.IsConfirm,
             BookingSlotId = reservation.BookingSlotId,
             TableId = reservation.TableId,
-            // Add any additional mappings here
         };
     }
 
@@ -23,9 +23,14 @@ public static class ReservationMapper
         return new TblReservation
         {
             Id = Guid.NewGuid(),
+            ReservationNumber = Converter.ReservationNumberGenerator(),
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            Email = dto.Email,
+            PhoneNumber = dto.PhoneNumber,
             NumberOfPeople = dto.NumberOfPeople,
             SpecialRequest = dto.SpecialRequest,
-            IsConfirm = false,
+            IsConfirm = true,
             BookingSlotId = dto.BookingSlotId,
             TableId = dto.TableId
         };

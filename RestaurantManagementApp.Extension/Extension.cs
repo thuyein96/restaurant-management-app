@@ -185,8 +185,7 @@ public static class Extension
             CartItemId = cartItem.Id,
             CartId = cartItem.CartId,
             Cart = cartItem.Cart.ToDto(),
-            MenuItemId = cartItem.MenuItemId,
-            MenuItem = cartItem.MenuItem.ToDto(),
+            MenuItemId = cartItem.MenuItemId
         };
     }
 
