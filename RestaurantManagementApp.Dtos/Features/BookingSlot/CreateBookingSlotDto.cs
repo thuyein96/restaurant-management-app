@@ -3,8 +3,7 @@
 public class CreateBookingSlotDto
 {
     public string SlotNumber { get; set; }
-    public DateOnly BookingDate { get; set; }
-    public TimeOnly StartTime { get; set; }
-    public TimeOnly EndTime { get; set; }
-    public BookingSlotStatus IsAvailable { get; set; }
+    public string BookingDate { get; set; }
+    public string StartTime { get; set; }
+    public string EndTime { get; set; }
 }

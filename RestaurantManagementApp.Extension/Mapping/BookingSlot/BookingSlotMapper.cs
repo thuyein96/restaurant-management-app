@@ -32,10 +32,10 @@ public static class BookingSlotMapper
         return new TblBookingSlot
         {
             SlotNumber = createBookingSlot.SlotNumber,
-            BookingDate = createBookingSlot.BookingDate,
-            StartTime = createBookingSlot.StartTime,
-            EndTime = createBookingSlot.EndTime,
-            IsAvailable = createBookingSlot.IsAvailable.Name
+            BookingDate = Converter.ToDate(createBookingSlot.BookingDate),
+            StartTime = Converter.ToTime(createBookingSlot.StartTime),
+            EndTime = Converter.ToTime(createBookingSlot.EndTime),
+            IsAvailable = BookingSlotStatus.Pending.Name
         };
     }
 

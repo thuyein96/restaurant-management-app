@@ -78,8 +78,8 @@ public class BookingSlotService : IBookingSlotService
         {
             var isDuplicate = await _appDbContext
                 .TblBookingSlots
-                .AnyAsync(x => x.StartTime == createBookingSlot.StartTime &&
-                               x.BookingDate == createBookingSlot.BookingDate);
+                .AnyAsync(x => x.StartTime == Converter.ToTime(createBookingSlot.StartTime) &&
+                               x.BookingDate == Converter.ToDate(createBookingSlot.BookingDate));
             if (isDuplicate)
             {
                 result = Result<BookingSlotDto>.Failure("Booking Slot already exists for the given date and time.");
