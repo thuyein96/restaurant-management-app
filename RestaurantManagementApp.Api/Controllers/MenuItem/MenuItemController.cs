@@ -73,16 +73,16 @@ public class MenuItemController : BaseController
     }
 
     [SwaggerOperation(Summary = "Add customize options to menu.")]
-    [HttpPatch("{menuitemid}/customize-options")]
-    public async Task<IActionResult> AddCustomizeOptionsToMenu(Guid menuitemid, [FromBody] Guid customizeOptionsId)
+    [HttpPatch("{menuitemid}/customize-options/{customizeOptionsId}")]
+    public async Task<IActionResult> AddCustomizeOptionsToMenu(Guid menuitemid, Guid customizeOptionsId)
     {
         var result = await _menuItemService.AddCustomizeOptionsToMenuAsync(menuitemid, customizeOptionsId);
         return Content(result);
     }
 
     [SwaggerOperation(Summary = "Remove customize options from menu item.")]
-    [HttpDelete("{menuitemid}/customize-options")]
-    public async Task<IActionResult> RemoveCustomizeOptionsFromMenu(Guid menuitemid, [FromBody] Guid customizeOptionsId)
+    [HttpDelete("{menuitemid}/customize-options/{customizeOptionsId}")]
+    public async Task<IActionResult> RemoveCustomizeOptionsFromMenu(Guid menuitemid, Guid customizeOptionsId)
     {
         var result = await _menuItemService.RemoveCustomizeOptionsFromMenuAsync(menuitemid, customizeOptionsId);
         return Content(result);

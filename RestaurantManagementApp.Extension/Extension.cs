@@ -39,7 +39,9 @@ public static class Extension
             CategoryId = dataModel.CategoryId,
             Category = dataModel.Category?.ToDto(),
             ImageUrl = dataModel.ImageUrl,
-            CustomizeOptions = dataModel.MenuItemCustomizeOptions.Select(x => x.CustomizeOption.ToDto()).ToList()
+            CustomizeOptions = dataModel.MenuItemCustomizeOptions == null
+                ? null
+                : dataModel.MenuItemCustomizeOptions.Select(x => x.CustomizeOption.ToDto()).ToList()
         };
     }
 

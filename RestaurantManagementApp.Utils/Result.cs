@@ -35,19 +35,19 @@ public class Result<T>
         T data,
         string message = "Saving Successful.",
         EnumStatusCode statusCode = EnumStatusCode.Success
-    ) => Result<T>.Success(message, statusCode);
+    ) => Result<T>.Success(data, message, statusCode);
 
     public static Result<T> UpdateSuccess(
         T data,
         string message = "Updating Successful.",
         EnumStatusCode statusCode = EnumStatusCode.Success
-    ) => Result<T>.Success(message, statusCode);
+    ) => Result<T>.Success(data, message, statusCode);
 
     public static Result<T> DeleteSuccess(
         T data,
         string message = "Deleting Successful.",
         EnumStatusCode statusCode = EnumStatusCode.Success
-    ) => Result<T>.Success(message, statusCode);
+    ) => Result<T>.Success(data, message, statusCode);
 
     public static Result<T> Failure(
         string message = "Fail.",

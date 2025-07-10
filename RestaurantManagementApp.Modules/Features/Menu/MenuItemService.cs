@@ -51,7 +51,7 @@ public class MenuItemService : IMenuItemService
                 return Result<MenuItemDto>.NotFound("Menu Item Not Found.");
             }
 
-            result = Result<MenuItemDto>.Success();
+            result = Result<MenuItemDto>.Success(menuItem.ToDto());
         }
         catch (Exception ex)
         {
@@ -75,10 +75,11 @@ public class MenuItemService : IMenuItemService
                 return result;
             }
 
-            var newMenuItem = await _dbContext.TblMenuItems.AddAsync(menuItemDto.ToEntity());
+            var newMenuItem = menuItemDto.ToEntity();
+            await _dbContext.TblMenuItems.AddAsync(newMenuItem);
             await _dbContext.SaveChangesAsync();
 
-            result = Result<MenuItemDto>.SaveSuccess(newMenuItem.Entity.ToDto());
+            result = Result<MenuItemDto>.SaveSuccess(newMenuItem.ToDto());
         }
         catch (Exception ex)
         {
