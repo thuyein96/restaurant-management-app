@@ -48,9 +48,9 @@ public class MenuItemController : BaseController
         return Content(result);
     }
 
-    [SwaggerOperation(Summary = "Update menu item's category")]
-    [HttpPatch("{menuitemid}/category")]
-    public async Task<IActionResult> AddMenuItemToCategory(Guid menuitemid, [FromBody] Guid categoryId)
+    [SwaggerOperation(Summary = "Add menu item to category")]
+    [HttpPatch("{categoryId}/category/{menuitemid}")]
+    public async Task<IActionResult> AddMenuItemToCategory(Guid menuitemid, Guid categoryId)
     {
         var result = await _menuItemService.AddMenuItemCategoryAsync( menuitemid, categoryId);
         return Content(result);
