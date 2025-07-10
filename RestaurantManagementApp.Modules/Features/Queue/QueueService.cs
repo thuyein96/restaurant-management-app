@@ -24,12 +24,11 @@ public class QueueService : IQueueService
                 return result;
             }
 
-            await _dbContext.TblQueues.AddAsync(createQueueDto.ToEntity());
+            var newQueue = await _dbContext.TblQueues.AddAsync(createQueueDto.ToEntity());
             await _dbContext.SaveChangesAsync();
 
-            await _hubContext.Clients.All.SendAsync("QueueUpdated");
 
-            result = Result<QueueDto>.SaveSuccess();
+            result = Result<QueueDto>.SaveSuccess(newQueue.Entity.ToDto());
         }
         catch (Exception ex)
         {
@@ -65,12 +64,10 @@ public class QueueService : IQueueService
                 return result;
             }
 
-            _dbContext.TblQueues.Update(updateQueueDto.ToEntity(queue));
+            var updatedQueue = _dbContext.TblQueues.Update(updateQueueDto.ToEntity(queue));
             await _dbContext.SaveChangesAsync();
 
-            await _hubContext.Clients.All.SendAsync("QueueUpdated");
-
-            result = Result<QueueDto>.UpdateSuccess();
+            result = Result<QueueDto>.UpdateSuccess(updatedQueue.Entity.ToDto());
         }
         catch (Exception ex)
         {
@@ -94,12 +91,10 @@ public class QueueService : IQueueService
                 return result;
             }
 
-            _dbContext.TblQueues.Remove(queue);
+            var removedQueue = _dbContext.TblQueues.Remove(queue);
             await _dbContext.SaveChangesAsync();
 
-            await _hubContext.Clients.All.SendAsync("QueueUpdated");
-
-            result = Result<QueueDto>.DeleteSuccess();
+            result = Result<QueueDto>.DeleteSuccess(removedQueue.Entity.ToDto());
         }
         catch (Exception ex)
         {

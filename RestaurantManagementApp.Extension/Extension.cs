@@ -209,6 +209,17 @@ public static class Extension
             Quantity = cartItemDto.Quantity
         };
     }
+
+    public static CartItemDto ToDto(this CreateCartItemDto cartItemDto, Guid cartItemId)
+    {
+        return new CartItemDto
+        {
+            CartItemId = cartItemId,
+            CartId = cartItemDto.CartId,
+            MenuItemId = cartItemDto.MenuItemId,
+            Quantity = cartItemDto.Quantity
+        };
+    }
     public static CartDto ToDto(this TblCart cart)
     {
         return new CartDto
@@ -232,6 +243,23 @@ public static class Extension
                 .Select(x => new TblCartItem
                 {
                     Id = x.CartItemId,
+                    CartId = x.CartId,
+                    MenuItemId = x.MenuItemId
+                })
+                .ToList()
+        };
+    }
+
+    public static CartDto ToDto(this CreateCartDto cartDto)
+    {
+        return new CartDto
+        {
+            CustomerId = cartDto.CustomerId,
+            Total = cartDto.Total,
+            CartItems = cartDto.CartItems
+                .Select(x => new CartItemDto
+                {
+                    CartItemId = x.CartItemId,
                     CartId = x.CartId,
                     MenuItemId = x.MenuItemId
                 })

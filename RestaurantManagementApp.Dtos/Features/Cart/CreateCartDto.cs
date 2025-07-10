@@ -3,7 +3,6 @@
 public class CreateCartDto
 {
     public Guid CustomerId { get; set; }
-    public CustomerDto CustomerDto { get; set; }
     public int Total { get; set; }
     public List<CartItemDto>? CartItems { get; set; }
 }

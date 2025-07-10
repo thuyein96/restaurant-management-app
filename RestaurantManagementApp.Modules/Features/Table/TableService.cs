@@ -118,9 +118,9 @@ public class TableService : ITableService
                 result = Result<TableDto>.NotFound("Table Not Found.");
                 return result;
             }
-            _dbContext.TblTables.Remove(table);
+            var removedTable = _dbContext.TblTables.Remove(table);
             await _dbContext.SaveChangesAsync();
-            result = Result<TableDto>.DeleteSuccess();
+            result = Result<TableDto>.DeleteSuccess(removedTable.Entity.ToDto());
         }
         catch (Exception ex)
         {
