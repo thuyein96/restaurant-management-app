@@ -24,3 +24,4 @@ global using RestaurantManagementApp.Dtos.Features.Queue;
 global using RestaurantManagementApp.Modules.Features.Queue;
 global using RestaurantManagementApp.Modules.Helper.Email;
 global using Swashbuckle.AspNetCore.Annotations;
+global using RestaurantManagementApp.Dtos.Features.CustomizeOption;

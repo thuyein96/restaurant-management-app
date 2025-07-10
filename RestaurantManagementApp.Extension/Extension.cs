@@ -43,6 +43,17 @@ public static class Extension
         };
     }
 
+    public static MenuItemDto ToDto(this CreateMenuItemDto menuItemDto)
+    {
+        return new MenuItemDto
+        {
+            MenuItemName = menuItemDto.MenuItemName,
+            Description = menuItemDto.Description,
+            Price = menuItemDto.Price,
+            ImageUrl = string.IsNullOrEmpty(menuItemDto.ImageUrl) ? "" : menuItemDto.ImageUrl,
+        };
+    }
+
     public static TblMenuItem ToEntity(this CreateMenuItemDto menuItemDto)
     {
         return new TblMenuItem

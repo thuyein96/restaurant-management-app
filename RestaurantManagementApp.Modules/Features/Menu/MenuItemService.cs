@@ -32,8 +32,7 @@ public class MenuItemService : IMenuItemService
         {
             result = Result<IEnumerable<MenuItemDto>>.Failure(ex);
         }
-
-    result:
+        
         return result;
     }
 
@@ -52,7 +51,7 @@ public class MenuItemService : IMenuItemService
                 return Result<MenuItemDto>.NotFound("Menu Item Not Found.");
             }
 
-            result = Result<MenuItemDto>.Success(menuItem.ToDto());
+            result = Result<MenuItemDto>.Success();
         }
         catch (Exception ex)
         {
