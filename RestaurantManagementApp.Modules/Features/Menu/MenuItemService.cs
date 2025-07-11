@@ -51,7 +51,7 @@ public class MenuItemService : IMenuItemService
                 return Result<MenuItemDto>.NotFound("Menu Item Not Found.");
             }
 
-            result = Result<MenuItemDto>.Success();
+            result = Result<MenuItemDto>.Success(menuItem.ToDto());
         }
         catch (Exception ex)
         {
@@ -75,10 +75,11 @@ public class MenuItemService : IMenuItemService
                 return result;
             }
 
-            await _dbContext.TblMenuItems.AddAsync(menuItemDto.ToEntity());
+            var newMenuItem = menuItemDto.ToEntity();
+            await _dbContext.TblMenuItems.AddAsync(newMenuItem);
             await _dbContext.SaveChangesAsync();
 
-            result = Result<MenuItemDto>.SaveSuccess();
+            result = Result<MenuItemDto>.SaveSuccess(newMenuItem.ToDto());
         }
         catch (Exception ex)
         {
@@ -114,10 +115,10 @@ public class MenuItemService : IMenuItemService
             menuItem.Price = menuItemDto.Price;
             menuItem.ImageUrl = menuItemDto.ImageUrl;
 
-            _dbContext.TblMenuItems.Update(menuItem);
+            var updatedMenuItem = _dbContext.TblMenuItems.Update(menuItem);
             await _dbContext.SaveChangesAsync();
 
-            result = Result<MenuItemDto>.UpdateSuccess();
+            result = Result<MenuItemDto>.UpdateSuccess(updatedMenuItem.Entity.ToDto());
         }
         catch (Exception ex)
         {
@@ -287,22 +288,20 @@ public class MenuItemService : IMenuItemService
         Result<MenuItemDto> result;
         try
         {
-            var menuItem = await _dbContext.TblMenuItems.Include(f => f.Category)
+            var menuItem = await _dbContext.TblMenuItems/*.Include(f => f.Category)
                 .Include(f => f.MenuItemCustomizeOptions)
-                .ThenInclude(j => j.CustomizeOption)
+                .ThenInclude(j => j.CustomizeOption)*/
                 .FirstOrDefaultAsync(x => x.MenuItemId == menuItemId);
             if (menuItem is null)
             {
                 result = Result<MenuItemDto>.NotFound("Menu Item Not Found.");
                 return result;
             }
-
-            _dbContext.TblMenuItemCustomizeOptions
-                .RemoveRange(menuItem.MenuItemCustomizeOptions);
-            _dbContext.TblMenuItems.Remove(menuItem);
+            
+            var removedMenuItem = _dbContext.TblMenuItems.Remove(menuItem);
             await _dbContext.SaveChangesAsync();
 
-            result = Result<MenuItemDto>.DeleteSuccess();
+            result = Result<MenuItemDto>.DeleteSuccess(removedMenuItem.Entity.ToDto());
         }
         catch (Exception ex)
         {

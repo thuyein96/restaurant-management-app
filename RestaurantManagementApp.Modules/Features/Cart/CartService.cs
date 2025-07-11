@@ -99,7 +99,7 @@ public class CartService : ICartService
             await _dbContext.TblCarts.AddAsync(cartDto.ToEntity());
             await _dbContext.SaveChangesAsync();
 
-            result = Result<CartDto>.SaveSuccess();
+            result = Result<CartDto>.SaveSuccess(cartDto.ToDto());
         }
         catch (Exception ex)
         {
@@ -159,10 +159,10 @@ public class CartService : ICartService
                 return Result<CartItemDto>.Success(cartItem.ToDto());
             }
 
-            await _dbContext.TblCartItems.AddAsync(cartItemDto.ToEntity());
+            var newCartItem = await _dbContext.TblCartItems.AddAsync(cartItemDto.ToEntity());
             await _dbContext.SaveChangesAsync();
 
-            result = Result<CartItemDto>.SaveSuccess();
+            result = Result<CartItemDto>.SaveSuccess(newCartItem.Entity.ToDto());
         }
         catch (Exception ex)
         {

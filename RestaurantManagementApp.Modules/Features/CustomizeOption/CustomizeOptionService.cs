@@ -124,10 +124,10 @@ public class CustomizeOptionService : ICustomizeOptionService
                 return Result<CustomizeOptionDto>.NotFound("Customize Option Not Found.");
             }
 
-            _dbContext.TblCustomizeOptions.Remove(customizeOption);
+            var removedOption = _dbContext.TblCustomizeOptions.Remove(customizeOption);
             await _dbContext.SaveChangesAsync();
 
-            result = Result<CustomizeOptionDto>.DeleteSuccess();
+            result = Result<CustomizeOptionDto>.DeleteSuccess(removedOption.Entity.ToDto());
         }
         catch (Exception ex)
         {

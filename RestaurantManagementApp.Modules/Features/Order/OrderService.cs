@@ -15,10 +15,10 @@ public class OrderService : IOrderService
         {
             var calculatedOrder = await CreateOrderDtoWithTotalAmount(createOrderDto);
 
-            await _appDbContext.TblOrders.AddAsync(calculatedOrder.ToEntity());
+            var newOrder = await _appDbContext.TblOrders.AddAsync(calculatedOrder.ToEntity());
             await _appDbContext.SaveChangesAsync();
 
-            result = Result<OrderDto>.SaveSuccess();
+            result = Result<OrderDto>.SaveSuccess(newOrder.Entity.ToDto());
         }
         catch (Exception ex)
         {
@@ -102,10 +102,10 @@ public class OrderService : IOrderService
             order.TotalAmount = updateOrderDto.TotalAmount;
             order.OrderDetails = updateOrderDto.OrderItems.Select(x => x.ToEntity()).ToList();
 
-            _appDbContext.TblOrders.Update(order);
+            var updatedOrder = _appDbContext.TblOrders.Update(order);
             await _appDbContext.SaveChangesAsync();
 
-            result = Result<OrderDto>.UpdateSuccess();
+            result = Result<OrderDto>.UpdateSuccess(updatedOrder.Entity.ToDto());
         }
         catch (Exception ex)
         {
@@ -129,10 +129,10 @@ public class OrderService : IOrderService
                 return result;
             }
 
-            _appDbContext.TblOrders.Remove(order);
+            var removedOrder = _appDbContext.TblOrders.Remove(order);
             await _appDbContext.SaveChangesAsync();
 
-            result = Result<OrderDto>.DeleteSuccess();
+            result = Result<OrderDto>.DeleteSuccess(removedOrder.Entity.ToDto());
         }
         catch (Exception ex)
         {

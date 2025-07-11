@@ -70,10 +70,10 @@ public class ReservationService : IReservationService
             await ChangeTableStatusAsync(reservationDto.TableId);
             await ChangeBookingSlotStatusAsync(reservationDto.BookingSlotId);
 
-            await _dbContext.TblReservations.AddAsync(reservationDto.ToEntity());
+            var newReservation = await _dbContext.TblReservations.AddAsync(reservationDto.ToEntity());
             await _dbContext.SaveChangesAsync();
 
-            result = Result<ReservationDto>.SaveSuccess();
+            result = Result<ReservationDto>.SaveSuccess(newReservation.Entity.ToDto());
         }
         catch (Exception ex)
         {
@@ -144,10 +144,10 @@ public class ReservationService : IReservationService
                 return result;
             }
 
-            _dbContext.TblReservations.Remove(reservation);
+            var removedReservation = _dbContext.TblReservations.Remove(reservation);
             await _dbContext.SaveChangesAsync();
 
-            result = Result<ReservationDto>.DeleteSuccess();
+            result = Result<ReservationDto>.DeleteSuccess(removedReservation.Entity.ToDto());
         }
         catch (Exception ex)
         {

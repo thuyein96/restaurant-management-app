@@ -39,7 +39,7 @@ public class CategoryService : ICategoryService
             if (category is null)
             {
                 result = Result<CategoryDto>.NotFound("Category Not Found.");
-                goto result;
+                return result;
             }
 
             result = Result<CategoryDto>.Success(category.ToDto());
@@ -49,7 +49,6 @@ public class CategoryService : ICategoryService
             result = Result<CategoryDto>.Failure(ex);
         }
 
-    result:
         return result;
     }
 
@@ -66,20 +65,19 @@ public class CategoryService : ICategoryService
             if (isDuplicate)
             {
                 result = Result<CategoryDto>.Duplicate("Category Name already exists.");
-                goto result;
+                return result;
             }
 
-            await _dbContext.TblCategories.AddAsync(categoryDto.ToEntity());
+            var newCategory = await _dbContext.TblCategories.AddAsync(categoryDto.ToEntity());
             await _dbContext.SaveChangesAsync();
 
-            result = Result<CategoryDto>.SaveSuccess();
+            result = Result<CategoryDto>.SaveSuccess(newCategory.Entity.ToDto());
         }
         catch (Exception ex)
         {
             result = Result<CategoryDto>.Failure(ex);
         }
-
-    result:
+        
         return result;
     }
 
@@ -96,20 +94,19 @@ public class CategoryService : ICategoryService
             if (category is null)
             {
                 result = Result<CategoryDto>.NotFound("Category Not Found.");
-                goto result;
+                return result;
             }
 
-            _dbContext.TblCategories.Remove(category);
+            var removedCategory = _dbContext.TblCategories.Remove(category);
             await _dbContext.SaveChangesAsync();
 
-            result = Result<CategoryDto>.DeleteSuccess();
+            result = Result<CategoryDto>.DeleteSuccess(removedCategory.Entity.ToDto());
         }
         catch (Exception ex)
         {
             result = Result<CategoryDto>.Failure(ex);
         }
 
-    result:
         return result;
     }
 
