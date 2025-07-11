@@ -8,4 +8,5 @@ public class TblOrder
     public DateTime OrderDate { get; set; }
     public decimal TotalAmount { get; set; }
     public ICollection<TblOrderDetails> OrderDetails { get; set; }
+    public string OrderStatus { get; set; }
 }

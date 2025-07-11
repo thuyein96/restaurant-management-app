@@ -115,6 +115,30 @@ public class OrderService : IOrderService
         return result;
     }
 
+    public async Task<Result<OrderDto>> UpdateOrderStatusAsync(Guid orderId, OrderStatus status)
+    {
+        Result<OrderDto> result;
+        try
+        {
+            var order = await GetSpecificOrder(x => x.Id == orderId);
+            if (order is null)
+            {
+                result = Result<OrderDto>.NotFound("Order Not Found.");
+                return result;
+            }
+            
+            order.OrderStatus = status.Name;
+            var updatedOrder = _appDbContext.TblOrders.Update(order);
+            result = Result<OrderDto>.UpdateSuccess(updatedOrder.Entity.ToDto());
+        }
+        catch (Exception ex)
+        {
+            result = Result<OrderDto>.Failure(ex);
+        }
+        
+        return result;
+    }
+
     public async Task<Result<OrderDto>> DeleteOrderAsync(Guid orderId)
     {
         Result<OrderDto> result;
