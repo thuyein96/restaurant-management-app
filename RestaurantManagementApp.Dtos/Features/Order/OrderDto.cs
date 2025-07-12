@@ -3,7 +3,8 @@
 public class OrderDto
 {
     public Guid Id { get; set; }
-    public Guid CustomerId { get; set; }
+    public Guid? CustomerId { get; set; }
+    public Guid TableId { get; set; }
     public DateTime OrderDate { get; set; }
     public decimal TotalAmount { get; set; }
     public List<OrderDetailsDto> OrderDetails { get; set; }

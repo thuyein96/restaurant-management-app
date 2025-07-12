@@ -8,5 +8,4 @@ public interface IQueueService
     Task<Result<QueueDto>> GetQueueByIdAsync(Guid queueId);
     Task<Result<QueueDto>> GetQueueByCustomerNameAsync(string customerName);
     Task<Result<IEnumerable<QueueDto>>> GetAllQueuesAsync();
-    Task<Result<IEnumerable<QueueDto>>> GetQueuesByRestaurantIdAsync(Guid restaurantId);
 }

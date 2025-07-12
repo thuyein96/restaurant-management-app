@@ -43,10 +43,10 @@ public class QueueService : IQueueService
         Result<QueueDto> result;
         try
         {
-            if (updateQueueDto.QueueStatus != QueueStatus.Served.Name)
+            if (updateQueueDto.QueueStatus != QueueStatus.Active.Name)
             {
                 return Result<QueueDto>
-                    .Failure("Queue status must be 'Served' to update the queue.");
+                    .Failure("Queue status must be 'Active' to update the queue.");
             }
             var queue = await GetSpecificQueue(x => x.Id == updateQueueDto.QueueId);
             if (queue is null)
@@ -155,30 +155,6 @@ public class QueueService : IQueueService
             if (queues is null || !queues.Any())
             {
                 result = Result<IEnumerable<QueueDto>>.NotFound("No queues found.");
-                return result;
-            }
-            var queueDtos = queues.Select(q => q.ToDto());
-            result = Result<IEnumerable<QueueDto>>.Success(queueDtos);
-        }
-        catch (Exception ex)
-        {
-            result = Result<IEnumerable<QueueDto>>.Failure(ex);
-        }
-
-        return result;
-    }
-
-    public async Task<Result<IEnumerable<QueueDto>>> GetQueuesByRestaurantIdAsync(Guid restaurantId)
-    {
-        Result<IEnumerable<QueueDto>> result;
-        try
-        {
-            var queues = await _dbContext.TblQueues
-                .Where(q => q.RestaurantId == restaurantId)
-                .ToListAsync();
-            if (queues is null || !queues.Any())
-            {
-                result = Result<IEnumerable<QueueDto>>.NotFound("No queues found for this restaurant.");
                 return result;
             }
             var queueDtos = queues.Select(q => q.ToDto());

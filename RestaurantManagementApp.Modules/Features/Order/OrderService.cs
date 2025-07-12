@@ -27,21 +27,7 @@ public class OrderService : IOrderService
 
         return result;
     }
-
-    private async Task<OrderDto> CreateOrderDtoWithTotalAmount(CreateOrderDto createOrderDto)
-    {
-        var order = new OrderDto()
-        {
-            CustomerId = createOrderDto.CustomerId,
-            OrderDate = createOrderDto.OrderDate,
-            OrderDetails = await CalculatedOrderItems(createOrderDto)
-        };
-        decimal totalAmount = await CalculateOrder(order);
-        order.TotalAmount = totalAmount;
-        return order;
-    }
-
-
+    
     public async Task<Result<OrderDto>> GetOrderByIdAsync(Guid orderId)
     {
         Result<OrderDto> result;
@@ -95,9 +81,7 @@ public class OrderService : IOrderService
                 result = Result<OrderDto>.NotFound("Order Not Found.");
                 return result;
             }
-
-
-            order.CustomerId = updateOrderDto.CustomerId;
+            
             order.OrderDate = updateOrderDto.OrderDate;
             order.TotalAmount = updateOrderDto.TotalAmount;
             order.OrderDetails = updateOrderDto.OrderItems.Select(x => x.ToEntity()).ToList();
@@ -126,9 +110,12 @@ public class OrderService : IOrderService
                 result = Result<OrderDto>.NotFound("Order Not Found.");
                 return result;
             }
-            
+
+            await UpdateTableStatus(status, order);
+
             order.OrderStatus = status.Name;
             var updatedOrder = _appDbContext.TblOrders.Update(order);
+            await _appDbContext.SaveChangesAsync();
             result = Result<OrderDto>.UpdateSuccess(updatedOrder.Entity.ToDto());
         }
         catch (Exception ex)
@@ -172,6 +159,20 @@ public class OrderService : IOrderService
         throw new NotImplementedException();
     }
 
+    
+    private async Task UpdateTableStatus(OrderStatus status, TblOrder order)
+    {
+        TblTable table;
+        if (status.Name == OrderStatus.Paid.Name)
+        {
+            table = (await _appDbContext.TblTables
+                .FirstOrDefaultAsync(x => x.Id == order.TableId))!;
+            table.IsAvailable = TableStatus.Available.Name;
+                
+            _appDbContext.TblTables.Update(table);
+        }
+    }
+    
     private async Task<bool?> IsOrderDuplicate(
         Expression<Func<TblOrder, bool>> expression
         )
@@ -188,6 +189,19 @@ public class OrderService : IOrderService
         return await _appDbContext.TblOrders.FirstOrDefaultAsync(
             expression
         );
+    }
+    
+    private async Task<OrderDto> CreateOrderDtoWithTotalAmount(CreateOrderDto createOrderDto)
+    {
+        var order = new OrderDto()
+        {
+            CustomerId = createOrderDto.CustomerId,
+            OrderDate = createOrderDto.OrderDate,
+            OrderDetails = await CalculatedOrderItems(createOrderDto)
+        };
+        decimal totalAmount = await CalculateOrder(order);
+        order.TotalAmount = totalAmount;
+        return order;
     }
 
     private async Task<List<OrderDetailsDto>> CalculatedOrderItems(CreateOrderDto order)

@@ -8,6 +8,7 @@ public static class OrderMapper
         {
             Id = datamodel.Id,
             CustomerId = datamodel.CustomerId,
+            TableId = datamodel.TableId,
             OrderDate = datamodel.OrderDate,
             OrderDetails = datamodel.OrderDetails.Select(x => x.ToEntity()).ToList()
         };
@@ -19,6 +20,7 @@ public static class OrderMapper
         {
             CustomerId = datamodel.CustomerId,
             OrderDate = datamodel.OrderDate,
+            TableId = datamodel.TableId,
             OrderDetails = datamodel.OrderItems.Select(x => x.ToEntity()).ToList()
         };
     }
@@ -28,7 +30,6 @@ public static class OrderMapper
         return new TblOrder
         {
             Id = datamodel.OrderId,
-            CustomerId = datamodel.CustomerId,
             OrderDate = datamodel.OrderDate,
             TotalAmount = datamodel.TotalAmount,
             OrderDetails = datamodel.OrderItems.Select(x => x.ToEntity()).ToList()

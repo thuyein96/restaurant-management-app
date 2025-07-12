@@ -6,11 +6,10 @@ public static class QueueMapper
     {
         return new TblQueue
         {
-            RestaurantId = dataModal.RestaurantId,
             CustomerName = dataModal.CustomerName,
             PhoneNumber = dataModal.PhoneNumber,
             NumberofPeople = dataModal.NumberofPeople,
-            QueueStatus = QueueStatus.Waiting.Name,
+            QueueStatus = QueueStatus.InLine.Name,
             CreatedAt = DateTime.UtcNow
         };
     }
@@ -20,7 +19,6 @@ public static class QueueMapper
         return new QueueDto
         {
             QueueId = dataModal.Id,
-            RestaurantId = dataModal.RestaurantId,
             CustomerName = dataModal.CustomerName,
             PhoneNumber = dataModal.PhoneNumber,
             NumberofPeople = dataModal.NumberofPeople,
@@ -32,7 +30,6 @@ public static class QueueMapper
     {
         return new TblQueue
         {
-            RestaurantId = dataModal.RestaurantId,
             CustomerName = dataModal.CustomerName,
             PhoneNumber = dataModal.PhoneNumber,
             NumberofPeople = dataModal.NumberofPeople,
