@@ -3,12 +3,9 @@
 public class QueueService : IQueueService
 {
     private readonly AppDbContext _dbContext;
-    private readonly IHubContext<QueueHub> _hubContext;
-
-    public QueueService(AppDbContext appDbContext, IHubContext<QueueHub> hubContext)
+    public QueueService(AppDbContext appDbContext)
     {
         _dbContext = appDbContext;
-        _hubContext = hubContext;
     }
     public async Task<Result<QueueDto>> CreateQueueAsync(CreateQueueDto createQueueDto)
     {
